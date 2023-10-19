@@ -16,16 +16,16 @@ public class TestPostTestDay22 {
 
     @Test
     public void testNowPlaying() {
-        Response response = RestAssured.get(endpoint);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getTime());
-        System.out.println(response.getBody().asString());
-        System.out.println(response.getHeaders());
-        int statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 200);
-        String token = response.getBody().jsonPath().getString("Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZDM5OGFkNzY1NDYwM2JhNzRkM2NkMzk3MzhiZjcwNiIsInN1YiI6IjY1MmZjOTAwMDI0ZWM4MDEwMTU0NThhMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.cbZJ1FkQkBNTVoXgD4remB4Vk8BKyg3UwYZBFjxdE1E");
-        System.out.println(token);
-
+        JSONObject request = new JSONObject();
+        given()
+                // .header("Authorization", "Bearer token")
+                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZDM5OGFkNzY1NDYwM2JhNzRkM2NkMzk3MzhiZjcwNiIsInN1YiI6IjY1MmZjOTAwMDI0ZWM4MDEwMTU0NThhMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.cbZJ1FkQkBNTVoXgD4remB4Vk8BKyg3UwYZBFjxdE1E")
+                .body(request.toJSONString())
+                .when()
+                .post("https://api.themoviedb.org/3/movie/now_playing")
+                .then()
+                .statusCode(200)
+                .log().all();
     }
 }
 
